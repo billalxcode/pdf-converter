@@ -57,15 +57,19 @@ class PdfConverter(object):
 
         self.entry_console = Text(self.frame, width=40)
         self.entry_console.configure(state=DISABLED)
-        self.entry_console.grid(row=3, column=1, ipadx=0, ipady=50, pady=10, padx=0)
+        self.entry_console.grid(row=4, column=1, ipadx=0, ipady=50, pady=10, padx=0)
 
     def createLabel(self):
         Label(self.frame, text="Input file").grid(row=0, column=0)
-        Label(self.frame, text="Console:" + " " * 90).grid(row=2, column=1)
+        Label(self.frame, text="Console:" + " " * 90).grid(row=3, column=1)
 
     def createButton(self):
         Button(self.frame, text="Open", command=self.openFileAsk).grid(row=0, column=3, pady=0)
-        Button(self.frame, text="Convert", command=self.convert).grid(row=1, column=1, pady=10)
+        Button(self.frame, text="Convert", command=self.convert).grid(row=1, column=1, pady=5)
+        Button(self.frame, text="Information", command=self.information).grid(row=2, column=1, pady=0)
+
+    def information(self):
+        messagebox.showinfo("Credit", "Author: Billal Fauzan\nVersion: 1.0")
 
     def openFileAsk(self):
         self.call_console("Opening window file")
@@ -98,10 +102,10 @@ class PdfConverter(object):
                 self.call_console("Create a folder output")
             except OSError:
                 self.call_console("Folder output is exist")
-            self.call_console("Convert to image, please wait a minute")
+            self.call_console("Reading PDF...")
             try:
-                self.call_console("Reading PDF...")
                 pdf = pdf2image.convert_from_path(self.input_path, 300)
+                self.call_console("Convert to image, please wait a minute")
                 self.call_console("Starting to convert")
                 i = 0
                 for image in pdf:
@@ -119,7 +123,6 @@ class PdfConverter(object):
         self.createLabel()
         self.createEntry()
         self.createButton()
-
 
         # Settings
         self.root.title("PDF Converter")
